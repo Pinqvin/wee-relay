@@ -1,0 +1,8 @@
+{
+  "name": "WeeRelay",
+  "androidHost": "localhost",
+  "modules": [],
+  "imageDirs": [
+    "images"
+  ]
+}
