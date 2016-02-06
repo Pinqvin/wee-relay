@@ -3,7 +3,13 @@
   (:require [re-frame.core :refer [register-sub]]))
 
 (register-sub
-  :get-greeting
+  :get-ios-tab
   (fn [db _]
     (reaction
-      (get @db :greeting))))
+      (get-in @db [:ios :tab]))))
+
+(register-sub
+  :get-settings
+  (fn [db -]
+    (reaction
+      (get @db :settings))))

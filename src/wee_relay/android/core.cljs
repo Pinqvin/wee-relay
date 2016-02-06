@@ -1,4 +1,4 @@
-(ns ^:figwheel-load wee-relay.android.core
+(ns wee-relay.android.core
   (:require [reagent.core :as r :refer [atom]]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
             [wee-relay.handlers]
