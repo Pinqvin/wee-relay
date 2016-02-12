@@ -3,6 +3,7 @@
     [re-frame.core :refer [register-handler after trim-v dispatch]]
     [schema.core :as s :include-macros true]
     [wee-relay.shared.store :as store]
+    [wee-relay.socket :as socket]
     [wee-relay.db :as db :refer [app-db schema]]))
 
 ;; -- Middleware
@@ -65,3 +66,37 @@
   [validate-schema-mw trim-v]
   (fn [db [value]]
     (assoc-in db [:ios :tab] value)))
+
+(register-handler
+  :connect-to-server
+  [validate-schema-mw trim-v]
+  (fn [{:keys [settings] :as db}]
+    (let [url (str "ws://" (:host settings) ":" (:port settings) "/weechat")]
+      (if-let [connection (js/WebSocket. url)]
+        (dispatch [:connection-successful connection])
+        (dispatch [:connection-failed]))
+      (assoc-in db [:server :connecting?] true))))
+
+(register-handler
+  :connection-successful
+  [validate-schema-mw trim-v]
+  (fn [db [connection]]
+    (set! (.-onmessage connection) socket/on-message)
+    (set! (.-onopen connection) socket/on-open)
+    (set! (.-onclose connection) socket/on-close)
+    (set! (.-onerror connection) socket/on-error)
+    (assoc-in db [:server :connection] connection)))
+
+(register-handler
+  :connection-failed
+  [validate-schema-mw trim-v]
+  (fn [db]
+    (-> (assoc-in db [:server :connecting?] false)
+        (assoc-in [:server :connection-failed?] true))))
+
+(register-handler
+  :authenticate
+  [validate-schema-mw trim-v]
+  (fn [{:keys [server settings] :as db}]
+    (.send (:connection server) (str "init password=" (:password settings) "\ntest\ninfo version"))
+    db))

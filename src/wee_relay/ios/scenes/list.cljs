@@ -1,20 +1,21 @@
 (ns wee-relay.ios.scenes.list
   (:require [reagent.core :as r]
-            [re-frame.core :refer [subscribe dispatch]]
-            [wee-relay.ios.ui :as ios-ui]
-            [wee-relay.ios.styles :refer [styles]]
+            [re-frame.core :refer [dispatch subscribe]]
             [wee-relay.shared.ui :as ui]
-            [wee-relay.shared.scenes.settings :refer [settings-scene]]))
+            [wee-relay.ios.styles :refer [styles]]))
 
-(defn list-scene [{navigator :navigator}]
-  (let [active-tab (subscribe [:get-ios-tab])]
-    [ios-ui/tab-bar
-     [ios-ui/tab-bar-item {:on-press #(dispatch [:set-ios-tab "list"])
-                           :selected (= @active-tab "list")
-                           :title "Channels"}
-      [ui/view {:style (get-in styles [:list :container])}
-       [ui/text @active-tab]]]
-     [ios-ui/tab-bar-item {:on-press #(dispatch [:set-ios-tab "settings"])
-                           :selected (= @active-tab "settings")
-                           :title "Settings"}
-      [settings-scene]]]))
+(defn channel-list [settings]
+  (r/create-class
+    {:component-will-mount #(dispatch [:connect-to-server])
+     :reagent-render
+     (fn [settings]
+       [ui/text "Kanavalista"])}))
+
+(defn list-scene []
+  (let [settings (subscribe [:get-settings])]
+    (fn []
+      (let [{:keys [host port password]} @settings]
+        [ui/view {:style (get-in styles [:list :container])}
+         (if (and host port password)
+           [channel-list @settings]
+           [ui/text "Check settings"])]))))

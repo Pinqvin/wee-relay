@@ -6,9 +6,15 @@
              :settings {(s/optional-key :host) s/Str
                         (s/optional-key :port) s/Str
                         (s/optional-key :password) s/Str}
-             :connection s/Any})
+             :server {:connection s/Any
+                      :connecting? s/Bool
+                      :connection-failed? s/Bool
+                      :authentication-failed? s/Bool}})
 
 ;; initial state of app-db
 (def app-db {:ios {:tab "list"}
              :settings {}
-             :connection nil})
+             :server {:connection nil
+                      :connecting? false
+                      :connection-failed? false
+                      :authentication-failed? false}})
