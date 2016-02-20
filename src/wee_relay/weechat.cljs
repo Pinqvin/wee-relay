@@ -58,10 +58,9 @@
 
 (defn number->str [data index]
   (let [length (get-byte data index)]
-    (->> (get-slice data index length)
+    (-> (get-slice data index length)
          js/Uint8Array.
-         uint-to-string
-         (str "0x"))))
+         uint-to-string)))
 
 (defn get-type [data index]
   (let [type-data (get-slice data index 3)]
@@ -150,7 +149,7 @@
     "str" (get-string data index)
     "lon" (number->str data index)
     "buf" (get-string data index)
-    "ptr" (number->str data index)
+    "ptr" (str "0x" (number->str data index))
     "tim" (-> (number->str data index)
               js/parseInt
               (* 1000)
