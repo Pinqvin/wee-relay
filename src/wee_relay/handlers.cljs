@@ -98,5 +98,5 @@
   :authenticate
   [validate-schema-mw trim-v]
   (fn [{:keys [server settings] :as db}]
-    (.send (:connection server) (str "init password=" (:password settings) "\ntest\ninfo version"))
+    (.send (:connection server) (str "init password=" (:password settings) "\nhdata buffer:gui_buffers(*) number,full_name\n"))
     db))

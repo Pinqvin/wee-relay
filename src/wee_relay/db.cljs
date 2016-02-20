@@ -3,9 +3,9 @@
 
 ;; schema of app-db
 (def schema {:ios {:tab s/Str}
-             :settings {(s/optional-key :host) s/Str
-                        (s/optional-key :port) s/Str
-                        (s/optional-key :password) s/Str}
+             :settings {(s/optional-key :host) s/Any
+                        (s/optional-key :port) s/Any
+                        (s/optional-key :password) s/Any}
              :server {:connection s/Any
                       :connecting? s/Bool
                       :connection-failed? s/Bool
