@@ -1,8 +1,7 @@
 (defproject wee-relay "0.1.0-SNAPSHOT"
   :description "WeeChat relay client for iOS"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "The MIT License (MIT)"
+            :url  "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
                  [reagent "0.5.1" :exclusions [cljsjs/react]]

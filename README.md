@@ -1,14 +1,37 @@
 # wee-relay
 
-A Clojure library designed to ... well, that part is up to you.
+A WeeChat mobile client utilizing the WeeChat Relay protocol.
 
-## Usage
+## Development
 
-FIXME
+To build the application:
+
+```
+lein prod-build
+```
+
+### iOS development
+
+To start development you can run the application in iOS by running the following command
+
+```bash
+react-native run-ios
+```
+
+After the simulator is running, you can start figwheel with
+
+```bash
+lein run-figwheel ios
+```
+
+or by running the following function inside a REPL
+
+```clojure
+(start-figwheel "ios")
+```
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 Juuso Tapaninen
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT license.
