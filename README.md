@@ -21,7 +21,7 @@ react-native run-ios
 After the simulator is running, you can start figwheel with
 
 ```bash
-lein run-figwheel ios
+lein figwheel ios
 ```
 
 or by running the following function inside a REPL

@@ -62,6 +62,9 @@
          js/Uint8Array.
          uint-to-string)))
 
+(defn get-pointer [data index]
+  (str "0x" (number->str data index)))
+
 (defn get-type [data index]
   (let [type-data (get-slice data index 3)]
     (if-not (nil? type-data)
@@ -134,7 +137,7 @@
       (if (> count 0)
         (recur (conj results (merge
                                {:pointers
-                                (doall (map (fn [_] (number->str data index)) h-path))}
+                                (doall (map (fn [_] (get-pointer data index)) h-path))}
                                (doall (into {} (map (fn [key-type]
                                                       {(keyword (nth key-type 0))
                                                        (get-data-for-type data index (nth key-type 1))})
@@ -149,7 +152,7 @@
     "str" (get-string data index)
     "lon" (number->str data index)
     "buf" (get-string data index)
-    "ptr" (str "0x" (number->str data index))
+    "ptr" (get-pointer data index)
     "tim" (-> (number->str data index)
               js/parseInt
               (* 1000)
